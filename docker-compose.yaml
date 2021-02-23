@@ -1,0 +1,35 @@
+version: '3.3'
+services: 
+  web:
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: php73
+    depends_on: 
+      - db
+      - phpmyadmin
+    volumes: 
+      - ./php:/var/www/html/
+    ports: 
+      - 80:80
+  db:
+    container_name: mysql
+    image: hypriot/rpi-mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: test_root_password
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_password
+    ports: 
+      - 3306:3306
+  phpmyadmin:
+    container_name: myadmin
+    image: phpmyadmin
+    restart: always
+    depends_on: 
+      - db
+    environment: 
+      MYSQL_ROOT_PASSWORD: Dimoolla20
+    ports: 
+      - 81:80
